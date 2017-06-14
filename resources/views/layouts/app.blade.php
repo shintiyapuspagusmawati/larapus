@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+    <link rel="stylesheet"  href="/css/bootstrap.min.css">
+    
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,8 +46,9 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
+                        &nbsp;
                         @if (Auth::check())
-                            <li><a href="{{ url('/home') }}">Dashboard</a></li>
+                            <li><a href="{{url('/home')}}">Dashboard</a></li>
                         @endif
                     </ul>
 
@@ -85,6 +89,6 @@
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
-    @include('layouts.menu')
+    
 </body>
 </html>

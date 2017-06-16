@@ -61,7 +61,7 @@ class BooksController extends Controller
         //
         $this->validate($request, [
             'title' => 'required|unique:books,title',
-            'author_id' => 'required|exists:author,id',
+            'author_id' => 'required|exists:authors,id',
             'amount' => 'required|numeric',
             'cover' => 'image|max:2048'
             ]);
@@ -80,7 +80,7 @@ class BooksController extends Controller
             $filename = md5(time()).'.'.$extension;
 
             // menyimpan cover ke folder public/img
-            $destinationPath = public_path().DIRECTORY_SEPERATOR.'img';
+            $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'img';
             $uploaded_cover->move($destinationPath, $filename);
 
             // mengisi field cover book dengan filename yang baru dibuat
@@ -115,6 +115,8 @@ class BooksController extends Controller
     public function edit($id)
     {
         //
+        $book = Book::find($id);
+        return view('books.edit')->with(compact('book'));
     }
 
     /**
@@ -127,6 +129,14 @@ class BooksController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $this->validate($request, [
+            'title' => 'required|unique:books,title'.$id,
+            'author_id' => 'required|exists:authors,id',
+            'amount' => 'required|numeric',
+            'cover' => 'image|max:2048'
+            ]);
+        $book = Book::find($id)
+        $book->update($request->all());
     }
 
     /**

@@ -7,7 +7,9 @@ use App\Book;
 use Yajra\Datatables\Html\Builder;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\File;
 use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 
 class BooksController extends Controller
 {
@@ -121,17 +123,9 @@ class BooksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBookRequest $request, $id)
     {
         //
-        $this->validate($request, [
-            'title' => 'required|unique:books,title'.$id,
-            'author_id' => 'required|exists:authors,id',
-            'amount' => 'required|numeric',
-            'cover' => 'image|max:2048'
-            ]);
-        $book = Book::find($id);
-        $book->update($request->all());
 
         if ($request->hasFile('cover')) {
             // mengambil cover yang diupload berikut ekstensinya
@@ -153,7 +147,7 @@ class BooksController extends Controller
                  try{
                     File::delete($filepath);
                  }
-                 catch(FileNotFoundException $e){
+                    catch(FileNotFoundException $e){
                     // file sudah dihapus/tidak ada
                  }
              }

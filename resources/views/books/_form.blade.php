@@ -3,6 +3,9 @@
     <div class="col-md-4">
     {!! Form::text('title', null, ['class'=>'form-control']) !!}
   	{!! $errors->first('title', '<p class="help-block">:message</p>') !!}
+    @if(isset($book))
+        <p class="help-block">{{ $book->borrowed }} buku sedang dipinjam</p>
+    @endif
     </div>
  </div>
 

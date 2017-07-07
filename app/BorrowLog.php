@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class BorrowLog extends Model
 {
     //
-    protected $filable = ['book_id', 'user_id', 'is_returned'];
+    protected $casts = [
+        'is_returned' => 'boolean',
+    ];
+    protected $fillable = ['book_id', 'user_id', 'is_returned'];
 
     public function book()
     {
@@ -18,4 +21,14 @@ class BorrowLog extends Model
     {
     	return $this->belongsTo('App\User');
 	}
+
+    public function ScopeReturned($query)
+    {
+        return $query->where('is_returned', 1);
+    }
+
+    public function ScopeBorrowed($query)
+    {
+        return $query->where('is_returned', 0);
+    }
 }

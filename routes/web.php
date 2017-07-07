@@ -21,5 +21,16 @@ Route::group(['middleware'=>'web'], function(){
 	Route::resource('authors', 'AuthorsController');
 	Route::resource('books', 'BooksController');
 });
-
 });
+
+Route::get('books/{book}/borrow', [
+	'middleware' => ['auth', 'rolemember'],
+	'as' => 'guest.books.borrow',
+	'user' => 'BooksController@borrow'
+	]);
+
+Route::get('books/{book}/return', [
+	'middleware' => ['auth', 'rolemember'],
+	'as' => 'member.books.return',
+	'user' => 'BooksController@returnBack'
+	]);

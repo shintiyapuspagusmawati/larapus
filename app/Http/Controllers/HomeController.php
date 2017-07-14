@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Laratrust\LaratrustFacade as Laratrust;
 use Illuminate\Support\Facades\Auth;
+use App\borrowLog;
 
 class HomeController extends Controller
 {

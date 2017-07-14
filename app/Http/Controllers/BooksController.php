@@ -13,7 +13,7 @@ use App\Http\Requests\UpdateBookRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\BorrowLog;
 use Illuminate\Support\Facades\Auth;
-use App\Exception\BookException;
+use App\Exceptions\BookException;
 class BooksController extends Controller
 {
     /**
@@ -25,14 +25,14 @@ class BooksController extends Controller
     {
         //
         if ($request->ajax()){
-            $books = Book::with('author');
+            $books = Book::with(['author']);
             return Datatables::of($books)
                 ->addColumn('action',function($book){
                     return view('datatable._action',[
-                        'model' => $book,
+                        'model'    => $book,
                         'form_url' => route('books.destroy', $book->id),
                         'edit_url' => route('books.edit', $book->id),
-                        'confirm_message' => 'Yakin Menghapus '.$book->title.'?'
+                        'confirm_message' => 'Yakin ingin Menghapus '.$book->title.'?'
                         ]);
                 })->make(true);
         }
@@ -87,7 +87,7 @@ class BooksController extends Controller
             $book->cover= $filename;
             $book->save();
         }
-
+        dd($book);  
         Session::flash("flash_notification", [
             "level" => "success",
             "message" => "Berhasil Menyimpan $book->title"
@@ -227,12 +227,12 @@ class BooksController extends Controller
 
     public function returnBack($book_id)
     {
-        $borrowLog - BorrowLog::where('user_id', Auth::user()->id)
+        $borrowLog = BorrowLog::where('user_id', Auth::user()->id)
         ->where('book_id', $book_id)
         ->where('is_returned', 0)
         ->first();
 
-        if($borrowLog)
+        if($borrowLog){
             $borrowLog->is_returned = true;
             $borrowLog->save();
 
@@ -241,5 +241,7 @@ class BooksController extends Controller
             "message"=>"Berhasil Mengembalikan".$borrowLog->book->title
             ]);
     }
-    return redirect('/home');
+        return redirect('/home');
+    }
+    
 }

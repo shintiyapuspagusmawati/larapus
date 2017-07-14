@@ -102,7 +102,9 @@ class AuthorsController extends Controller
         $this->validate($request, ['name' => 'required|unique:authors,name,'.$id]);
         $author = Author::find($id);
         $author->update($request->only('name'));
-        Session::flash("flash_notification", ["level"=>"success", "message"=>"Berhasil menyimpan $author->name"]);
+        Session::flash("flash_notification", [
+            "level"=>"success",
+            "message"=>"Berhasil menyimpan $author->name"]);
         return redirect()->route('authors.index');
     }
 

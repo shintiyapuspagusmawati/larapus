@@ -1,16 +1,11 @@
-$(document).ready(function(){
-	// comfirm delete
-	$(document.body).on('submit', '.js-confirm', function(){
+$(document).ready(function () {
+	$('.js-selectize').selectize({
+		sortField: 'text'
+	});
+	$(document.body).on('submit', '.js-confirm', function () {
 		var $el = $(this)
-		var text = $el.data('comfirm') ? $el.data('confirm') : 'Anda Yakin Melakukan Tindakan Ini?'
+		var text = $el.data('confirm') ? $el.data('confirm') : 'Anda yakin melakukan tindakan ini?'
 		var c = confirm(text);
 		return c;
-		});
-
-
-		// add selectize to select element
-		$('.js-selectize').selectize({
-			sortField:'text';
-	
 	});
 });

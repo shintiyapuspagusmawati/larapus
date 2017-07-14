@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
-class UpdateBookRequest extends StoreBookRequest
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreMemberRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -11,7 +13,7 @@ class UpdateBookRequest extends StoreBookRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +23,9 @@ class UpdateBookRequest extends StoreBookRequest
      */
     public function rules()
     {
-        return[
-            $rules = parent::rules();
-            $rules['title'] = 'required|unique:books.title,' . $this->route('book');
-            return $rules;
+        return [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
         ];
     }
 }

@@ -63,8 +63,3 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-    {!! $html->scripts() !!}
-@endsection

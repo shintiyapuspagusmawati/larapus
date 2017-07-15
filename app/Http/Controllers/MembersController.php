@@ -7,10 +7,10 @@ use App\Role;
 use App\User;
 use Yajra\Datatables\Html\Builder;
 use Yajra\Datatables\Facades\Datatables;
-use App\Http\Request\StoreMemberRequest;
+use App\Http\Requests\StoreMemberRequest;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
-use App\Http\Request\UpdateMemberRequest;
+use App\Http\Requests\UpdateMemberRequest;
 
 class MembersController extends Controller
 {
@@ -25,14 +25,14 @@ class MembersController extends Controller
         if ($request->ajax()){
             $members = Role::where('name', 'member')->first()->users;
             return Datatables::of($members)
-                ->addColumn('name',function($member){
-                    return '<a href="'.route('members.show', $member->id).'">'.$member->name.'</a>';
+                ->addColumn('name',  function($member){
+                    return '<a href="'.route('members.show', $member->id).'">'.$member->name.'</a>';})
                 ->addColumn('action',function($member){
                     return view('datatable._action',[
                         'model'    => $member,
                         'form_url' => route('members.destroy', $member->id),
                         'edit_url' => route('members.edit', $member->id),
-                        'confirm_message' => 'Yakin ingin Menghapus '.$member->aane.'?'
+                        'confirm_message' => 'Yakin ingin Menghapus '.$member->name.'?'
                         ]);
                 })->make(true);
         }
@@ -60,11 +60,11 @@ class MembersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(storeMemberRequest $request)
+    public function store(StoreMemberRequest $request)
     {
         $password = str_random(6);
         $data = $request->all();
-        $data['password'] = bycript($password);
+        $data['password'] = bcrypt($password);
         // bypass verifikasi
         $data['is_verified'] = 1;
 
@@ -75,7 +75,7 @@ class MembersController extends Controller
         $member->attachRole($memberRole);
 
         // kirim email
-        Mail::send('auth.email.invite', compact('member', 'password'), function($m) use ($member){
+        Mail::send('auth.emails.invite', compact('member', 'password'), function($m) use ($member){
             $m->to($member->email, $member->name)->subject('Anda Telah Didaftarkan Di Larapus!');
         });
 

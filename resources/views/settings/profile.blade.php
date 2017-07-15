@@ -14,6 +14,7 @@
                 </div>
 
                 <div class="panel-body">
+                <table class="table">
                 <tbody>
                     <tr>
                         <td class="text-muted">Nama</td>
@@ -24,6 +25,7 @@
                         <td>{{ auth()->user()->email }}</td>
                     </tr>
                 </tbody>
+                </table>
                     <a class="btn btn-primary" href="{{ url('/settings/profile/edit') }}">Ubah</a></p>
                 </div>
             </div>

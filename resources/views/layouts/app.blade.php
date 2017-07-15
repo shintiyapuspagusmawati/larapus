@@ -61,7 +61,7 @@
                             <li><a href="{{ route('statistics.index') }}">Peminjam</a></li>
                         @endrole
                         @if (auth()->check())
-                            <li><a href="{{ url('/settings/profile') }}">Profile</a></li>
+                            <li><a href="{{ url('/settings/profile') }}">Profil</a></li>
                         @endif
                     </ul>
 

@@ -26,6 +26,7 @@ class UpdateMemberRequest extends FormRequest
         return [
             $rules = parent::rules();
             $rules['email'] = 'required|unique:users.email,' . $this->route('member');
-            return $rules;        ];
+            return $rules;
+            ];
     }
 }

@@ -14,9 +14,9 @@
                 </div>
 
                 <div class="panel-body">
-                    {!! Form::model(auth()->user(), ['url' => url('/settings/profile', 'method => 'post', 'class' => 'form-horizontal']) !!}
+                    {!! Form::model(auth()->user(), ['url' => url('/settings/profile'), 'method' => 'post', 'class' => 'form-horizontal']) !!}
 
-                    <div class="form-group{{ $errors->has('name') ? 'has-errors' : '' }}">
+                    <div class="form-group{{ $errors->has('name') ? 'has-error' : '' }}">
                         {!! Form::label('name', 'Nama', ['class'=>'col-md-4 control-label']) !!}
                         <div class="col-md-6">
                             {!! Form::text('name', null, ['class'=>'form-control']) !!}

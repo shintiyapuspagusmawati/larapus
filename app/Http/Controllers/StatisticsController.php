@@ -27,7 +27,7 @@ class StatisticsController extends Controller
         $html = $htmlBuilder
         ->addColumn(['data'=> 'book.title', 'name'=>'book.title', 'title'=>'Judul'])
         ->addColumn(['data'=> 'user.name', 'name'=>'user.name', 'title'=>'Peminjam'])
-        ->addColumn(['data'=> 'create_at', 'name'=>'create_at', 'title'=>'Tanggal Pinjam', 'searchable'=>false]);
+        ->addColumn(['data'=> 'create_at', 'name'=>'create_at', 'title'=>'Tanggal Pinjam', 'searchable'=>false])
         ->addColumn(['data'=> 'returned_at', 'name'=>'returned_at', 'title'=>'Tanggal Kembali', 'orderable'=>false, 'searchable'=>false]);
         return view('statistics.index')->with(compact('html'));
     }

@@ -8,20 +8,30 @@ use Illuminate\Support\Facades\Session;
 
 class SettingsController extends Controller
 {
-    return view('settings.edit.profile');
-
+    
     public function __construct()
     {
-    	$this->middleware('auth');
+        $this->middleware('auth');
     }
 
-    public function update(Request $request)
+    public function profile()
+    {
+        return view('settings.profile');
+    }
+
+    public function editProfile()
+    {
+        return view('settings.edit-profile');
+    }
+
+    public function updateProfile(Request $request)
     {
     	$user = Auth::user();
-    	$this->validate($request[
-    		'name' => 'required'
-    		'email' => 'required|unique::users, email,'.$user->id
+    	$this->validate($request, [
+    		'name' => 'required',
+    		'email' => 'required|unique:users, email,'.$user->id
     		]);
+
     	$user->name = $request->get('name');
     	$user->email = $request->get('email');
     	$user->save();
@@ -30,7 +40,7 @@ class SettingsController extends Controller
     		"level" => "success",
     		"message" => "Profil Berhasil Diubah"
     		]);
-    	return redirect('setting/profile');
+    	return redirect('settings/profile');
     }
 
     public function editPassword()
@@ -41,20 +51,20 @@ class SettingsController extends Controller
     public function updatePassword(Request $request)
     {
     	$user = Auth::user();
-    	$this->validate($request[
+    	$this->validate($request, [
     		'password' => 'required|passcheck:'.$user->password,
     		'new_password' => 'required|confirmed|min:6'
     		], [
     		'password.passcheck' => 'Password Lama Tidak Sesuai'
     		]);
 
-    	$user->password = bycript($request->get('new_password'));
+    	$user->password = bcrypt($request->get('new_password'));
     	$user->save();
 
     	Session::flash("flash_notification",[
     		"level" => "success",
     		"message" => "Password Berhasil Diubah"
     		]);
-    	return redirec('setting/password');
+    	return redirect('settings/password');
     }
 }
